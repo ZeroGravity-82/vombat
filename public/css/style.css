@@ -1,0 +1,100 @@
+/* Сетка */
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+/* Формы */
+.form-control, .btn {
+    border-radius: 0;
+}
+
+/* Account block */
+.account-content-block {
+    border: 0.125em #0275d8 solid;
+    width:20em;
+
+}
+.account-content-block__title {
+    display:block;
+    font-size:1.2em;
+    font-weight: bold;
+    margin:1em 0 0 0;
+    text-align:center!important;
+}
+.account-content-block__header {
+    display:block;
+    font-size:1em;
+    font-weight: normal;
+    margin-bottom: 0.5em;
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+}
+
+/* Социальные сети */
+.social-icon {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    height: 2.5em;
+    width: 2.5em;
+    color: #fff;
+    text-decoration: none;
+}
+.social-icon:after {
+    content: '';
+    position: absolute;
+    width: 2.25em;
+    height: 2.25em;
+    top: 0;
+    left: 0;
+    background: url("social-icons.svg") no-repeat;
+    -webkit-background-size: 351px 81px;
+    background-size: 351px 81px;
+}
+.social-icon_vk {
+    background-color: #5c80a4;
+}
+.social-icon_vk:after {
+    background-position: -90px 0;
+}
+.social-icon_vk:hover:after {
+    background-position: -90px -45px;
+}
+.social-icon_ok {
+    background-color: #f68c06;
+}
+.social-icon_ok:after {
+    background-position: -135px 0;
+}
+.social-icon_ok:hover:after {
+    background-position: -135px -45px;
+}
+.social-icon_fb {
+    background-color: #4669b6;
+}
+.social-icon_fb:after {
+    background-position: 0 0;
+}
+.social-icon_fb:hover:after {
+    background-position: 0 -45px;
+}
+.social-icon_gplus {
+    background-color: #e04928;
+}
+.social-icon_gplus:after {
+     background-position: -225px 0;
+}
+.social-icon_gplus:hover:after {
+    background-position: -225px -45px;
+}
