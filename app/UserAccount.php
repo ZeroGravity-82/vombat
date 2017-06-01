@@ -8,6 +8,15 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class UserAccount extends Authenticatable
 {
+    /*
+    |--------------------------------------------------------------------------
+    | UserAccount
+    |--------------------------------------------------------------------------
+    |
+    | Учётная запись пользователя.
+    |
+    */
+
     use Notifiable;
 
     /**

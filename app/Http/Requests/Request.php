@@ -17,7 +17,6 @@ abstract class Request extends FormRequest
     | Абстрактный класс для всех FormRequest.
     | Реализует механизм очистки (предобработки) параметров запроса.
     |
-    |
     */
 
     /**

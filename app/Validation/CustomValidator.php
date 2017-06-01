@@ -4,18 +4,22 @@ namespace Vombat\Validation;
 
 use Illuminate\Validation\Validator as Validator;
 
-/**
- * Пользовательские правила валидации.
- *
- * Этот класс пришлось унаследовать от Validator для упрощения реализации метода validatePhoneUnique, чтобы не
- * писать заново проверку существования записи в базе данных. Однако пришлось переписать конструктор, - родительский
- * был бесполезен. Установка Presence Verifier в конструкторе позаимствована из метода registerValidationFactory класса
- * ValidationServiceProvider.
- * Class CustomValidator
- * @package Vombat\Validation
- */
 class CustomValidator extends Validator
 {
+    /*
+    |--------------------------------------------------------------------------
+    | CustomValidator
+    |--------------------------------------------------------------------------
+    |
+    | Реализует пользовательские правила валидации.
+    |
+    | Этот класс пришлось унаследовать от Validator для упрощения реализации метода validatePhoneUnique, чтобы не
+    | писать заново проверку существования записи в базе данных. Однако пришлось переписать конструктор, - родительский
+    | был бесполезен. Установка Presence Verifier в конструкторе позаимствована из метода registerValidationFactory
+    | класса ValidationServiceProvider.
+    |
+    */
+
     public function __construct()
     {
         $app = app();
