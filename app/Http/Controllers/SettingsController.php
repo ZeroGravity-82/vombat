@@ -37,7 +37,7 @@ class SettingsController extends Controller
     }
 
     /**
-     * Возвращает представление с настройками профиля.
+     * Возвращает представление с настройками профиля пользователя.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -47,7 +47,7 @@ class SettingsController extends Controller
     }
 
     /**
-     * Сохраняет внесённые в профиль изменения.
+     * Сохраняет внесённые в профиль пользователя изменения.
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse

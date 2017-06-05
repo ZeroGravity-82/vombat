@@ -42,8 +42,7 @@ class RegisterController extends Controller
 
     /**
      * Обрабатывает запрос с параметрами регистрации.
-     * Метод переопределён.
-     * Для валидации запроса используется RegisterUserRequest.
+     * Метод переопределён - для валидации запроса используется RegisterUserRequest.
      *
      * @param  RegisterUserRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

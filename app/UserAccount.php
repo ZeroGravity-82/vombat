@@ -4,7 +4,7 @@ namespace Vombat;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class UserAccount extends Authenticatable
 {
@@ -38,6 +38,8 @@ class UserAccount extends Authenticatable
     ];
 
     /**
+     * Имя таблицы БД, хранящей учётную запись пользователя.
+     *
      * @var string
      */
     protected $table = 'user_account';
@@ -47,7 +49,7 @@ class UserAccount extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
     }

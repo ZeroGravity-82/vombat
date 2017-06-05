@@ -25,6 +25,8 @@ class Phone extends Contact
     ];
 
     /**
+     * Имя таблицы БД, хранящей контактные данные пользователя "номер мобильного телефона".
+     *
      * @var string
      */
     protected $table = 'phone';

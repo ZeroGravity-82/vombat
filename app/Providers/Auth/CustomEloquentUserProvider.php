@@ -19,7 +19,6 @@ class CustomEloquentUserProvider extends EloquentUserProvider
     |
     | Позволяет получить модель пользователя по имени пользователя или его контактным данным - номеру мобильного
     | телефона или адресу электронной почты.
-    |
     | Для получения модели пользователя по его контактным данным используются модели Vombat\Phone и Vombat\Email.
     |
     */
@@ -83,7 +82,7 @@ class CustomEloquentUserProvider extends EloquentUserProvider
             }
             return null;                            // Пользователь не был найден по предоставленным контактным данным
         } catch (UserException $exception) {
-            // TODO: Не уверень, что flash нужно делать здесь, а не в Handler->render()
+            // TODO: Не уверен, что flash нужно делать здесь, а не в Handler->render()
             session()->flash('error', $exception->getMessage());
             return null;
         }

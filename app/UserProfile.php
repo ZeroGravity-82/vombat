@@ -4,6 +4,8 @@ namespace Vombat;
 
 use Illuminate\Database\Eloquent\Model;
 use Plank\Mediable\Mediable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class UserProfile extends Model
 {
@@ -19,6 +21,8 @@ class UserProfile extends Model
     use Mediable;
 
     /**
+     * Имя таблицы БД, хранящей профиль пользователя.
+     *
      * @var string
      */
     protected $table = 'user_profile';
@@ -37,7 +41,7 @@ class UserProfile extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function account()
+    public function account(): BelongsTo
     {
         return $this->belongsTo(UserAccount::class, 'user_account_id');
     }
@@ -47,7 +51,7 @@ class UserProfile extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function emails()
+    public function emails(): MorphMany
     {
         return $this->morphMany(Email::class, 'owner');
     }
@@ -57,7 +61,7 @@ class UserProfile extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function phones()
+    public function phones(): MorphMany
     {
         return $this->morphMany(Phone::class, 'owner');
     }

@@ -20,6 +20,10 @@ class CustomValidator extends Validator
     |
     */
 
+    /**
+     * Конструктор.
+     *
+     */
     public function __construct()
     {
         $app = app();
@@ -29,29 +33,33 @@ class CustomValidator extends Validator
     }
 
     /**
-     * Проверка значения на соответствие имени пользователя.
+     * Проверяет значение на соответствие имени пользователя.
+     *
      * Имя пользователя может состоять только из букв английского алфавита, цифр, символа подчёркивания
      * и должно содержать хотя бы одну букву или один символ подчёркивания.
+     *
      * @param string $attribute
-     * @param $value
+     * @param mixed $value
      * @param array $parameters
      * @return bool
      */
-    public function validateUsername(string $attribute, $value, array $parameters) : bool
+    public function validateUsername(string $attribute, $value, array $parameters): bool
     {
         $pattern = '/^(?=.*[a-zA-Z_])[a-zA-Z0-9_]+$/';
         return (bool)preg_match($pattern, $value);
     }
 
     /**
-     * Проверка значения на отсутствие зарезервированных слов.
+     * Проверяет значение на отсутствие зарезервированных слов.
+     *
      * Имя пользователя не должно содержать зарезервированные слова.
+     *
      * @param string $attribute
-     * @param $value
+     * @param mixed $value
      * @param array $parameters
      * @return bool
      */
-    public function validateReservedWordsFree(string $attribute, $value, array $parameters) : bool
+    public function validateReservedWordsFree(string $attribute, $value, array $parameters): bool
     {
         $reservedWords = array_map("strtolower", config('auth.reserved_words'));
         $containsReservedWords = str_contains(strtolower($value), $reservedWords);
@@ -60,30 +68,33 @@ class CustomValidator extends Validator
     }
 
     /**
-     * Проверка значения на соответствие формату номера мобильного телефона или адреса электронной почты.
+     * Проверяет значение на соответствие формату номера мобильного телефона или адреса электронной почты.
+     *
      * @param  string  $attribute
      * @param  mixed   $value
      * @param  array   $parameters
      * @return bool
      */
-    public function validateMobileOrEmail(string $attribute, $value, array $parameters) : bool
+    public function validateMobileOrEmail(string $attribute, $value, array $parameters): bool
     {
         return $this->isMobile($value) || $this->isEmail($value);
     }
 
     /**
-     * Проверка уникальности номера мобильного телефона в заданной таблице.
+     * Проверяет уникальность номера мобильного телефона в заданной таблице.
+     *
      * Данный метод основан на методе validateUnique класса \Illuminate\Validation\Validator.
      * Перед подсчётом количества строк в заданной таблице происходит форматирование номера мобильного телефона,
      * поскольку исходное значение может содержать лишние символы (для сохранения пользовательского форматирования
      * их нельзя было очистить (предобработать) ранее в запросе).
      * Если ни один столбец таблицы не задан, используется имя самого атрибута.
+     *
      * @param  string  $attribute
      * @param  mixed   $value
      * @param  array   $parameters
      * @return bool
      */
-    public function validatePhoneUnique(string $attribute, $value, array $parameters) : bool
+    public function validatePhoneUnique(string $attribute, $value, array $parameters): bool
     {
         $this->requireParameterCount(1, $parameters, 'phone_unique');
 
@@ -129,12 +140,14 @@ class CustomValidator extends Validator
     }
 
     /**
-     * Проверка значения на соответствие формату номера мобильного телефона.
+     * Проверяет значение на соответствие формату номера мобильного телефона.
+     *
      * В номере мобильного телефона допускаются пробелы.
+     *
      * @param  string  $value
      * @return bool
      */
-    public function isMobile(string $value) : bool
+    public function isMobile(string $value): bool
     {
         $value = str_replace(' ', '', $value);
         $pattern = '/^((8|(\+)?7)-?)?\(?9\d{2}\)?(-?\d{1}){7}$/';
@@ -142,24 +155,28 @@ class CustomValidator extends Validator
     }
 
     /**
-     * Проверка значения на соответствие формату адреса электронной почты.
+     * Проверяет значение на соответствие формату адреса электронной почты.
+     *
      * В адресе электронной почты допускаются любые символы, обязательно наличие символа @ и точки.
+     *
      * @param  string  $value
      * @return bool
      */
-    public function isEmail(string $value) : bool
+    public function isEmail(string $value): bool
     {
         $pattern  = '/^[^\s@]+@[^\s@]+\.[^\s@.]{2,}$/';
         return (bool)preg_match($pattern, $value);
     }
 
     /**
-     * Форматирование номера мобильного телефона.
+     * Форматирует номер мобильного телефона.
+     *
      * Из номера телефона удаляются все символы кроме цифр, сохраняются последние 10 цифр.
+     *
      * @param string $value
      * @return string
      */
-    public function formatMobile(string $value) : string
+    public function formatMobile(string $value): string
     {
         $value = preg_replace('/\D/', '', $value);
         return substr($value, strlen($value) - 10);

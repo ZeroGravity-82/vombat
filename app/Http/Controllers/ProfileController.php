@@ -13,6 +13,11 @@ class ProfileController extends Controller
     |
     */
 
+    /**
+     * Возвращает представление с информацией из профиля пользователя.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showProfile()
     {
         return view('profile');
