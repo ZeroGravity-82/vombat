@@ -19,14 +19,14 @@ class UserException extends Exception
     */
 
     /**
-     * При создании профиля пользователя не были предоставлены контактные данные.
+     * Не были предоставлены контактные данные пользователя.
      *
      * @param array $data
      * @return static
      */
     public static function contactsNotProvided(array $data)
     {
-        return new static("При создании профиля пользователя не были предоставлены контактные данные. " .
+        return new static("Не были предоставлены контактные данные пользователя. " .
             "Содержимое запроса: " . http_build_query(array_except($data, ['password', '_token'])) . ".");
     }
 

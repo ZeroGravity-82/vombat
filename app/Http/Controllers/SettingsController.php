@@ -74,7 +74,10 @@ class SettingsController extends Controller
         $profile->gender = $request->input('gender');
         $profile->status_message = $request->input('status_message');
         $birth_day = $request->input('birth_day');
-        $profile->birth_day = $birth_day ?? null;
+        if(empty($birth_day)) {
+            $birth_day = null;
+        }
+        $profile->birth_day = $birth_day;
 
         // Сохранение внесённых в профиль изменений
         $saved = $profile->save();
