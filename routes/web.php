@@ -14,10 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
 Auth::routes();
 
-Route::get('{username}',       'ProfileController@showProfile')->name('profile');
+// ФИАС
+Route::get('fias/fileinfo', 'FiasController@getFileInfo');
+
+// Настройки
 Route::get('settings/profile', 'SettingsController@editProfile')->name('profile.edit');
 Route::get('settings/account', 'SettingsController@editAccount')->name('account.edit');
 Route::get('settings/emails',  'SettingsController@editEmails')->name('emails.edit');
@@ -25,5 +27,8 @@ Route::put('settings/profile', 'SettingsController@updateProfile')->name('profil
 Route::put('settings/account', 'SettingsController@updateAccount')->name('account.update');
 Route::put('settings/emails',  'SettingsController@updateEmails')->name('emails.update');
 
-
+// Получение загруженных файлов
 Route::get('uploads/{filename}', 'FileController@getUploadedMedia');
+
+// Информация из профиля пользователя
+Route::get('{username}', 'ProfileController@showProfile')->name('profile');

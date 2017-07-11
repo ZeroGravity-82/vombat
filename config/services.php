@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model' => Vombat\User::class,
+        'model' => Vombat\UserAccount::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],

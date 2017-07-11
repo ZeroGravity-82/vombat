@@ -73,7 +73,7 @@ class ComposerServiceProvider extends ServiceProvider
             if(!isset($profile)) {
                 throw UserException::userWithoutProfile($user);
             }
-            $avatarFilename = config('settings.default_avatar');
+            $avatarFilename = config('user.default_avatar');
             $avatar = $profile->firstMedia('avatar');
             if(isset($avatar)) {
                 $ds = DIRECTORY_SEPARATOR;
