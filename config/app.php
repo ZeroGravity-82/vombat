@@ -166,7 +166,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\Debugbar\ServiceProvider::class,
         Plank\Mediable\MediableServiceProvider::class,
 
         /*
