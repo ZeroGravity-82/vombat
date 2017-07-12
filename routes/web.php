@@ -17,7 +17,7 @@ Route::get('/', function () {
 Auth::routes();
 
 // ФИАС
-Route::get('fias/fileinfo', 'FiasController@getFileInfo');
+Route::get('fias', 'FiasController@show');
 
 // Настройки
 Route::get('settings/profile', 'SettingsController@editProfile')->name('profile.edit');
