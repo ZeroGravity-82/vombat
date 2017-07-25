@@ -5,6 +5,7 @@ namespace Vombat\WebServices\Fias;
 use stdClass;
 use SoapClient;
 use SoapFault;
+use Vombat\Exceptions\FiasException;
 
 class Fias
 {
@@ -27,13 +28,19 @@ class Fias
         return $this->getDownloadFileInfo(TRUE);
     }
 
-
     public function getLastDownloadFileInfo(): stdClass
     {
         return $this->getDownloadFileInfo(FALSE);
     }
 
-    public function getDownloadFileInfo(bool $allDownload = TRUE): stdClass
+    /**
+     *
+     *
+     * @param bool $allInfo
+     * @return stdClass
+     * @throws FiasException Если не удалось подключиться к службе получения обновлений ФИАС
+     */
+    public function getDownloadFileInfo(bool $allInfo = TRUE): stdClass
     {
         try {
             // Для общения со службой получения обновлений ФИАС используется протокол SOAP
@@ -44,15 +51,14 @@ class Fias
             // - GetAllDownloadFileInfo - возвращает информацию о всех версиях файлов, доступных для скачивания;
             // - GetLastDownloadFileInfo - возвращает информацию о последней версии файлов, доступных для скачивания.
             $methodName = 'GetLastDownloadFileInfo';
-            if($allDownload) {
+            if($allInfo) {
                 $methodName = 'GetAllDownloadFileInfo';
             }
             return $fiasDownloadService->$methodName();
         } catch(SoapFault $exception) {
-            echo $exception->getMessage();
+            throw FiasException::FiasConnectionFailed();
         }
     }
-
 
     private function downloadFile(string $FileUrl): void
     {

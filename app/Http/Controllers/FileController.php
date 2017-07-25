@@ -7,7 +7,6 @@ use Plank\Mediable\MediaUploaderFacade as MediaUploader;
 use Illuminate\Support\Facades\Storage;
 use Plank\Mediable\Media;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class FileController extends Controller
 {

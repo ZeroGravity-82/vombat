@@ -4,7 +4,6 @@ namespace Vombat\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 use Vombat\Http\Controllers\Controller;
 use Vombat\Http\Requests\RegisterUserRequest;
 use Vombat\UserAccount;
