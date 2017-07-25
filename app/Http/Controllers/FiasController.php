@@ -55,11 +55,8 @@ class FiasController extends Controller
 
         // Подключиться к службе обновление ФИАС и посмотреть, есть ли файлы обновлений относительно своей БД
 
-        $lastDownloadedFileInfo = $this->fias->getLastDownloadFileInfo();
-
-
-
-        $lastAccessibleVersionId = $lastDownloadedFileInfo->GetLastDownloadFileInfoResult->VersionId;
+        $lastAvailableUpdate = $this->fias->getLastAvailableUpdate();
+        $lastAvailableVersionId = $lastAvailableUpdate->VersionId;
 
         // Если не удалось подключиться - выводим сообщение о проблеме.
 

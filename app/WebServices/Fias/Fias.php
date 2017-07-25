@@ -23,24 +23,34 @@ class Fias
      |
      */
 
-    public function getAllDownloadFileInfo(): stdClass
+    /**
+     * Возвращает объект с информацией о последней версии файлов ФИАС, доступной для скачивания.
+     *
+     * @return stdClass
+     */
+    public function getLastAvailableUpdate(): stdClass
     {
-        return $this->getDownloadFileInfo(TRUE);
+        return $this->getAvailableInfo(FALSE)->GetLastDownloadFileInfoResult;
     }
 
-    public function getLastDownloadFileInfo(): stdClass
+    /**
+     * Возвращает массив объектов stdClass с информацией о всех версиях файлов ФИАС, доступных для скачивания.
+     *
+     * @return array
+     */
+    public function getAllAvailableUpdates(): array
     {
-        return $this->getDownloadFileInfo(FALSE);
+        return $this->getAvailableInfo(TRUE)->GetAllDownloadFileInfoResult->DownloadFileInfo;
     }
 
     /**
      *
      *
-     * @param bool $allInfo
+     * @param bool $allUpdates
      * @return stdClass
      * @throws FiasException Если не удалось подключиться к службе получения обновлений ФИАС
      */
-    public function getDownloadFileInfo(bool $allInfo = TRUE): stdClass
+    public function getAvailableInfo(bool $allUpdates = TRUE): stdClass
     {
         try {
             // Для общения со службой получения обновлений ФИАС используется протокол SOAP
@@ -48,10 +58,10 @@ class Fias
             $fiasDownloadService = new SoapClient($fiasDownloadServiceUrl);
 
             // Служба предоставляет два метода:
-            // - GetAllDownloadFileInfo - возвращает информацию о всех версиях файлов, доступных для скачивания;
             // - GetLastDownloadFileInfo - возвращает информацию о последней версии файлов, доступных для скачивания.
+            // - GetAllDownloadFileInfo - возвращает информацию о всех версиях файлов, доступных для скачивания;
             $methodName = 'GetLastDownloadFileInfo';
-            if($allInfo) {
+            if($allUpdates) {
                 $methodName = 'GetAllDownloadFileInfo';
             }
             return $fiasDownloadService->$methodName();
