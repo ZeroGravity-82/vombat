@@ -6,6 +6,7 @@ use stdClass;
 use SoapClient;
 use SoapFault;
 use Vombat\Exceptions\FiasException;
+use Vombat\FiasUpdate;
 
 class Fias
 {
@@ -23,14 +24,42 @@ class Fias
      |
      */
 
+    public function noDownloadedUpdates(): bool
+    {
+        $downloadedUpdateList = FiasUpdate::all()->where('downloaded', true);
+        return $downloadedUpdateList->isEmpty();
+    }
+
+
+    /**
+     * Подключается к службе обновлений ФИАС и проверяет наличие доступных для загрузки файлов обновлений.
+     *
+     */
+    public function checkForAvailableUpdates()
+    {
+
+        // Подключиться к службе обновление ФИАС и проверить, появились ли доступные для загрузки файлы обновлений
+
+        $lastAvailableUpdateInfo = $this->getLastAvailableUpdateInfo();
+        $lastAvailableUpdateVersionId = $lastAvailableUpdateInfo->VersionId;
+
+        // Если не удалось подключиться - выводим сообщение о проблеме.
+
+
+        //      2. Проверить в своей БД последнее загруженное обновление
+        $lastDownloadedUpdateVersionId = FiasUpdate::first();
+
+
+    }
+
     /**
      * Возвращает объект с информацией о последней версии файлов ФИАС, доступной для скачивания.
      *
      * @return stdClass
      */
-    public function getLastAvailableUpdate(): stdClass
+    public function getLastAvailableUpdateInfo(): stdClass
     {
-        return $this->getAvailableInfo(FALSE)->GetLastDownloadFileInfoResult;
+        return $this->getAvailableUpdateInfo(FALSE)->GetLastDownloadFileInfoResult;
     }
 
     /**
@@ -38,19 +67,19 @@ class Fias
      *
      * @return array
      */
-    public function getAllAvailableUpdates(): array
+    public function getAllAvailableUpdateInfo(): array
     {
-        return $this->getAvailableInfo(TRUE)->GetAllDownloadFileInfoResult->DownloadFileInfo;
+        return $this->getAvailableUpdateInfo(TRUE)->GetAllDownloadFileInfoResult->DownloadFileInfo;
     }
 
     /**
      *
      *
-     * @param bool $allUpdates
+     * @param bool $allUpdatesInfo
      * @return stdClass
      * @throws FiasException Если не удалось подключиться к службе получения обновлений ФИАС
      */
-    public function getAvailableInfo(bool $allUpdates = TRUE): stdClass
+    public function getAvailableUpdateInfo(bool $allUpdatesInfo = TRUE): stdClass
     {
         try {
             // Для общения со службой получения обновлений ФИАС используется протокол SOAP
@@ -61,7 +90,7 @@ class Fias
             // - GetLastDownloadFileInfo - возвращает информацию о последней версии файлов, доступных для скачивания.
             // - GetAllDownloadFileInfo - возвращает информацию о всех версиях файлов, доступных для скачивания;
             $methodName = 'GetLastDownloadFileInfo';
-            if($allUpdates) {
+            if($allUpdatesInfo) {
                 $methodName = 'GetAllDownloadFileInfo';
             }
             return $fiasDownloadService->$methodName();

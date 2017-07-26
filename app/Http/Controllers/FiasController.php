@@ -3,7 +3,6 @@
 namespace Vombat\Http\Controllers;
 
 use Vombat\WebServices\Fias\Fias;
-use Vombat\FiasUpdate;
 
 class FiasController extends Controller
 {
@@ -29,7 +28,16 @@ class FiasController extends Controller
         echo '<pre>' . PHP_EOL;
         echo 'Центр обновления адресов Вомбат' . PHP_EOL . PHP_EOL;
 
-        $this->checkForUpdates();
+        // Если файлы обновлений ФИАС ещё не скачивались, выдаётся предупреждение о длительном предстоящем обновлении
+        if($this->fias->noDownloadedUpdates()) {
+            echo 'База адресов пуста. Получение обновлений может занять несколько часов.';
+        }
+
+        // Проверяется наличие доступных для загрузки файлов обновлений
+        $this->fias->checkForAvailableUpdates();
+
+
+
 
 
         //      4. Скачать.
@@ -44,29 +52,5 @@ class FiasController extends Controller
         //
 
 
-    }
-
-    /**
-     * Подключается к службе обновлений ФИАС и проверяет наличие отсутствующих в приложении обновлений.
-     *
-     */
-    public function checkForUpdates()
-    {
-
-        // Подключиться к службе обновление ФИАС и посмотреть, есть ли файлы обновлений относительно своей БД
-
-        $lastAvailableUpdate = $this->fias->getLastAvailableUpdate();
-        $lastAvailableVersionId = $lastAvailableUpdate->VersionId;
-
-        // Если не удалось подключиться - выводим сообщение о проблеме.
-
-
-        //      2. Проверить в своей БД последнее загруженное обновление
-        $lastDownloadedVersionId = FiasUpdate::first();
-
-        //      3. Если в своей БД вообще нет никаких данных, выдать предупреждение о длительном предстоящем обновлении.
-        if(is_null($lastDownloadedVersionId)) {
-            echo 'База адресов пуста. Первое получение обновлений займёт несколько часов.';
-        }
     }
 }
