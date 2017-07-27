@@ -24,6 +24,11 @@ class Fias
      |
      */
 
+    /**
+     * Проверяет наличие скачанных файлов обновлений ФИАС.
+     *
+     * @return bool
+     */
     public function noDownloadedUpdates(): bool
     {
         $downloadedUpdateList = FiasUpdate::all()->where('downloaded', true);
@@ -32,7 +37,7 @@ class Fias
 
 
     /**
-     * Подключается к службе обновлений ФИАС и проверяет наличие доступных для загрузки файлов обновлений.
+     * Подключается к службе обновлений ФИАС и проверяет наличие доступных для загрузки файлов обновлений ФИАС.
      *
      */
     public function checkForAvailableUpdates()
@@ -46,9 +51,11 @@ class Fias
         // Если не удалось подключиться - выводим сообщение о проблеме.
 
 
-        //      2. Проверить в своей БД последнее загруженное обновление
-        $lastDownloadedUpdateVersionId = FiasUpdate::first();
 
+
+        //      2. Проверить в своей БД последнее загруженное обновление
+        $lastDownloadedUpdateVersionId = FiasUpdate::where('downloaded', true)->latest()->first();
+        dd($lastDownloadedUpdateVersionId);
 
     }
 
