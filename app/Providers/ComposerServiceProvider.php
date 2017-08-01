@@ -70,7 +70,7 @@ class ComposerServiceProvider extends ServiceProvider
         if(Auth::check()) {
             $user = Auth::user();
             $profile = $user->profile;
-            if(!isset($profile)) {
+            if(is_null($profile)) {
                 throw UserException::userWithoutProfile($user);
             }
             $avatarFilename = config('user.default_avatar');

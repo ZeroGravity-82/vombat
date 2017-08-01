@@ -29,7 +29,7 @@ class Fias
      *
      * @return bool
      */
-    public function noDownloadedUpdates(): bool
+    public function noUpdatesDownloaded(): bool
     {
         $downloadedUpdateList = FiasUpdate::all()->where('downloaded', true);
         return $downloadedUpdateList->isEmpty();
@@ -37,25 +37,30 @@ class Fias
 
 
     /**
-     * Подключается к службе обновлений ФИАС и проверяет наличие доступных для загрузки файлов обновлений ФИАС.
+     * Возвращает количество доступных для загрузки файлов обновлений ФИАС.
      *
+     * @return int
      */
-    public function checkForAvailableUpdates()
+    public function checkForAvailableUpdates(): int
     {
-
-        // Подключиться к службе обновление ФИАС и проверить, появились ли доступные для загрузки файлы обновлений
-
+        // Проверить ID последнего доступного файла обновлений ФИАС, возвращаемого службой обновлений ФИАС
         $lastAvailableUpdateInfo = $this->getLastAvailableUpdateInfo();
         $lastAvailableUpdateVersionId = $lastAvailableUpdateInfo->VersionId;
 
-        // Если не удалось подключиться - выводим сообщение о проблеме.
+        // TODO: Если не удалось подключиться - выводим сообщение о проблеме.
+
+        // Проверить ID последнего загруженного файла обновлений ФИАС, содержащегося в базе данных приложения
+        $lastDownloadedUpdateInfo = FiasUpdate::where('downloaded', true)->latest()->first();
+
+        if(is_set($lastDownloadedUpdateInfo)) {
+            $lastDownloadedUpdateVersionId = $lastDownloadedUpdateInfo->VersionId;
+
+            // Если ID различаются, значит есть доступные для загрузки файлы обновлений ФИАС,
+            // необходимо их сосчитать.
+
+        }
 
 
-
-
-        //      2. Проверить в своей БД последнее загруженное обновление
-        $lastDownloadedUpdateVersionId = FiasUpdate::where('downloaded', true)->latest()->first();
-        dd($lastDownloadedUpdateVersionId);
 
     }
 

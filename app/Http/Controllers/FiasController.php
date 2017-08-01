@@ -29,7 +29,7 @@ class FiasController extends Controller
         echo 'Центр обновления адресов Вомбат' . PHP_EOL . PHP_EOL;
 
         // Если файлы обновлений ФИАС ещё не скачивались, выдаётся предупреждение о длительном предстоящем обновлении
-        if($this->fias->noDownloadedUpdates()) {
+        if($this->fias->noUpdatesDownloaded()) {
             echo 'База адресов пуста. Получение обновлений может занять несколько часов.';
         }
 

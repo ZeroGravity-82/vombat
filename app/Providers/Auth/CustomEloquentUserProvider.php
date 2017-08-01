@@ -112,11 +112,11 @@ class CustomEloquentUserProvider extends EloquentUserProvider
     {
         $profile = $contact->owner;
 
-        if (!isset($profile)) {
+        if (is_null($profile)) {
             throw UserException::contactWithoutProfile($contact);
         }
         $user = $profile->account;
-        if (!isset($user)) {
+        if (is_null($user)) {
             throw UserException::profileWithoutUser($profile);
         }
         return $user;

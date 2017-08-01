@@ -58,7 +58,7 @@ class SettingsController extends Controller
         // Получение профиля пользователя
         $user = $request->user();
         $profile = $user->profile;
-        if(!isset($profile)) {
+        if(is_null($profile)) {
             throw UserException::userWithoutProfile($user);
         }
 
