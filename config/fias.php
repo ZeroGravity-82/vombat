@@ -8,5 +8,5 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'download_service_url' => 'http://fias.nalog.ru/WebServices/Public/DownloadService.asmx?wsdl',
+    'download_service_url' => 'http://fias.nalog.ru/WebServices/Public/DownloadService1.asmx?wsdl',
 ];

@@ -24,6 +24,10 @@ class Fias
      |
      */
 
+    private $lastAvailableUpdateInfo ;
+    private $lastDownloadedUpdateInfo;
+
+
     /**
      * Проверяет наличие скачанных файлов обновлений ФИАС.
      *
@@ -39,29 +43,29 @@ class Fias
     /**
      * Возвращает количество доступных для загрузки файлов обновлений ФИАС.
      *
-     * @return int
+     * @return bool
      */
-    public function checkForAvailableUpdates(): int
+    public function checkForAvailableUpdates(): bool
     {
-        // Проверить ID последнего доступного файла обновлений ФИАС, возвращаемого службой обновлений ФИАС
-        $lastAvailableUpdateInfo = $this->getLastAvailableUpdateInfo();
-        $lastAvailableUpdateVersionId = $lastAvailableUpdateInfo->VersionId;
+        try {
+            // Проверить ID последнего доступного файла обновлений ФИАС, возвращаемого службой обновлений ФИАС
+            $this->lastAvailableUpdateInfo = $this->getLastAvailableUpdateInfo();
 
-        // TODO: Если не удалось подключиться - выводим сообщение о проблеме.
+            // Проверить ID последнего загруженного файла обновлений ФИАС, содержащегося в базе данных приложения
+            $this->lastDownloadedUpdateInfo = FiasUpdate::where('downloaded', true)->latest()->first();
 
-        // Проверить ID последнего загруженного файла обновлений ФИАС, содержащегося в базе данных приложения
-        $lastDownloadedUpdateInfo = FiasUpdate::where('downloaded', true)->latest()->first();
-
-        if(is_set($lastDownloadedUpdateInfo)) {
-            $lastDownloadedUpdateVersionId = $lastDownloadedUpdateInfo->VersionId;
-
-            // Если ID различаются, значит есть доступные для загрузки файлы обновлений ФИАС,
-            // необходимо их сосчитать.
-
+            // Если ID различаются, значит есть доступные для загрузки файлы обновлений ФИАС, необходимо их
+            // сосчитать.
+            $lastAvailableUpdateVersionId = $this->lastAvailableUpdateInfo->VersionId;
+            if(isset($this->lastDownloadedUpdateInfo)) {
+                $lastDownloadedUpdateVersionId = $this->lastDownloadedUpdateInfo->VersionId;
+            }
+            return $lastAvailableUpdateVersionId <> $lastDownloadedUpdateVersionId;
         }
-
-
-
+        catch (FiasException $exception) {
+            // TODO: Если не удалось подключиться - выводим сообщение о проблеме.
+            dd('Поймал исключение FiasException!');
+        }
     }
 
     /**

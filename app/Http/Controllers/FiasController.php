@@ -21,9 +21,9 @@ class FiasController extends Controller
      * ручной (т.е. надо ручками заходить в Центр обновления адресов Вомбат и нажимать кнопку "Установить обновления"
      * (этой кнопки может не быть, если для ФИАС пока не вышли свежие обновления)).
      *
-     * @return void
+     * @return ???
      */
-    public function showUpdates(): void
+    public function showUpdates()
     {
         echo '<pre>' . PHP_EOL;
         echo 'Центр обновления адресов Вомбат' . PHP_EOL . PHP_EOL;
@@ -34,7 +34,7 @@ class FiasController extends Controller
         }
 
         // Проверяется наличие доступных для загрузки файлов обновлений
-        $this->fias->checkForAvailableUpdates();
+         $this->fias->checkForAvailableUpdates();
 
 
 
