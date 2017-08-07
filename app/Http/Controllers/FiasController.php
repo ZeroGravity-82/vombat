@@ -31,8 +31,10 @@ class FiasController extends Controller
      */
     public function index()
     {
-        echo '<pre>' . PHP_EOL;
-        echo 'Центр обновления адресов Вомбат' . PHP_EOL . PHP_EOL;
+        return view('layouts.fias');
+
+
+        echo '<h1></h1>';
         echo 'Группа элементов управления [СОСТОЯНИЕ ОБНОВЛЕНИЯ]';
 
         // Если в настройках способа установки обновлений отключена автоматическая проверка наличия
