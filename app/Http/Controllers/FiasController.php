@@ -31,7 +31,10 @@ class FiasController extends Controller
      */
     public function index()
     {
-        return view('layouts.fias');
+        return view('layouts.fias')->with([
+            'last_updates_check' => '1982',
+            'last_updates_install' => '2017',
+            ]);
 
 
         echo 'Группа элементов управления [СОСТОЯНИЕ ОБНОВЛЕНИЯ]';
