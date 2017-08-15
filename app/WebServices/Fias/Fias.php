@@ -23,7 +23,6 @@ class Fias
      | 3.
      |
      */
-
     private $lastAvailableUpdateInfo ;
     private $lastDownloadedUpdateInfo;
 
@@ -129,9 +128,18 @@ class Fias
         fclose($fp);                                // Закрытие файла-назначения
     }
 
-
-    public function showAllCities()
+    public function isCheck()
     {
+        return FiasUpdate::all()->isEmpty();
+    }
 
+    public function isInstall()
+    {
+        return false;
+    }
+
+    public function isUpToDate()
+    {
+        return false;
     }
 }

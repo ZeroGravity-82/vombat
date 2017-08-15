@@ -31,10 +31,7 @@ class FiasController extends Controller
      */
     public function index()
     {
-        return view('fias')->with([
-            'last_updates_check' => '1982',
-            'last_updates_install' => '2017',
-            ]);
+        return view('fias')->with(['fias' => $this->fias]);
 
 
 

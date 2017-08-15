@@ -7,12 +7,20 @@
                 <h1 class="card-header">Центр обновления адресов Вомбат</h1>
                 <div class="card-block">
                     <div style="border: 1px solid lightgray">
-                        @include('partials.fias.updates_check')
+                        @if($fias->isCheck())
+                            @include('partials.fias.updates_check')
+                        @endif
+                        @if($fias->isInstall())
+                            @include('partials.fias.updates_install')
+                        @endif
+                        @if($fias->isUpToDate())
+                            @include('partials.fias.updates_up-to-date')
+                        @endif
                     </div>
                 </div>
                 <div class="card-footer">
-                    <p>Последний поиск обновлений: {{ $last_updates_check }}</p>
-                    <p>Обновления устанавливались: {{ $last_updates_install }}</p>
+                    {{--<p>Последний поиск обновлений: {{ $last_updates_check }}</p>--}}
+                    {{--<p>Обновления устанавливались: {{ $last_updates_install }}</p>--}}
 
                     <p class="text-muted">Обновления будут загружены и установлены автоматически.</p>
                     <!--
