@@ -6,6 +6,9 @@
             <div class="card">
                 <h1 class="card-header">Центр обновления адресов Вомбат</h1>
                 <div class="card-block">
+
+                    {{ $qwerty }}
+
                     <div style="border: 1px solid lightgray">
                         @if($fias->isCheck())
                             @include('partials.fias.updates_check')
@@ -17,6 +20,7 @@
                             @include('partials.fias.updates_up-to-date')
                         @endif
                     </div>
+
                 </div>
                 <div class="card-footer">
                     {{--<p>Последний поиск обновлений: {{ $last_updates_check }}</p>--}}

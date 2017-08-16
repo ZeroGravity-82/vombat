@@ -3,6 +3,7 @@
 namespace Vombat\Http\Controllers;
 
 use Vombat\WebServices\Fias\Fias;
+use Vombat\UserAccount;
 
 class FiasController extends Controller
 {
@@ -31,7 +32,12 @@ class FiasController extends Controller
      */
     public function index()
     {
-        return view('fias')->with(['fias' => $this->fias]);
+        $account = UserAccount::pluck('password', 'username');
+
+        return view('fias')->with([
+            'fias' => $this->fias,
+            'qwerty' => $account,
+        ]);
 
 
 
