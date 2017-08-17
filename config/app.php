@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         Plank\Mediable\MediableServiceProvider::class,
+        anlutro\LaravelSettings\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -224,6 +225,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'MediaUploader' => Plank\Mediable\MediaUploaderFacade::class,
+        'Setting' => anlutro\LaravelSettings\Facade::class,
     ],
 
 ];
