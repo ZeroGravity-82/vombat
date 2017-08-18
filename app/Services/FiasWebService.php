@@ -1,6 +1,6 @@
 <?php
 
-namespace Vombat\WebServices\Fias;
+namespace Vombat\Services;
 
 use stdClass;
 use SoapClient;
@@ -8,11 +8,11 @@ use SoapFault;
 use Vombat\Exceptions\FiasException;
 use Vombat\FiasUpdate;
 
-class Fias
+class FiasWebService
 {
     /*
      |-------------------------------------------------------------------------
-     | Fias
+     | FiasWebService
      |-------------------------------------------------------------------------
      |
      | Реализует взаимодействие со службой получения обновлений ФИАС.

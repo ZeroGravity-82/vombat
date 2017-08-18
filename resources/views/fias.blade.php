@@ -7,9 +7,6 @@
                 <h1 class="card-header">Центр обновления адресов Вомбат</h1>
                 <div class="card-block">
 
-
-                    {{ $setting->get('foo') }}
-
                     <div style="border: 1px solid lightgray">
                         @if($fias->isCheck())
                             @include('partials.fias.updates_check')
