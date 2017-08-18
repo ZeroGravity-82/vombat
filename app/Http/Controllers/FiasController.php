@@ -2,15 +2,13 @@
 
 namespace Vombat\Http\Controllers;
 
-use Vombat\Services\FiasWebService;
-use Vombat\UserAccount;
-use anlutro\LaravelSettings\SettingStore;
+use Vombat\Services\Fias;
 
 class FiasController extends Controller
 {
     private $fias;
 
-    public function __construct(FiasWebService $fias)
+    public function __construct(Fias $fias)
     {
         $this->fias = $fias;
     }
@@ -31,18 +29,10 @@ class FiasController extends Controller
      *
      * @return ???
      */
-    public function index(SettingStore $setting)
+    public function index()
     {
-        $account = UserAccount::pluck('password', 'username');
-
-//        $setting->set('foo', 'bar');
-//        $setting->forget('foo');
-//        $setting->save();
-
-
         return view('fias')->with([
             'fias' => $this->fias,
-            'setting' => $setting,
         ]);
 
 

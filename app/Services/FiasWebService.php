@@ -6,7 +6,6 @@ use stdClass;
 use SoapClient;
 use SoapFault;
 use Vombat\Exceptions\FiasException;
-use Vombat\FiasUpdate;
 
 class FiasWebService
 {
@@ -17,58 +16,10 @@ class FiasWebService
      |
      | Реализует взаимодействие со службой получения обновлений ФИАС.
      |
-     | Решает следующие задачи:
-     | 1.
-     | 2.
-     | 3.
-     |
      */
-    private $lastAvailableUpdateInfo ;
-    private $lastDownloadedUpdateInfo;
-
 
     /**
-     * Проверяет наличие скачанных файлов обновлений ФИАС.
-     *
-     * @return bool
-     */
-    public function noUpdatesDownloaded(): bool
-    {
-        $downloadedUpdateList = FiasUpdate::all()->where('downloaded', true);
-        return $downloadedUpdateList->isEmpty();
-    }
-
-
-    /**
-     * Возвращает количество доступных для загрузки файлов обновлений ФИАС.
-     *
-     * @return bool
-     */
-    public function checkForAvailableUpdates(): bool
-    {
-        try {
-            // Проверить ID последнего доступного файла обновлений ФИАС, возвращаемого службой обновлений ФИАС
-            $this->lastAvailableUpdateInfo = $this->getLastAvailableUpdateInfo();
-
-            // Проверить ID последнего загруженного файла обновлений ФИАС, содержащегося в базе данных приложения
-            $this->lastDownloadedUpdateInfo = FiasUpdate::where('downloaded', true)->latest()->first();
-
-            // Если ID различаются, значит есть доступные для загрузки файлы обновлений ФИАС, необходимо их
-            // сосчитать.
-            $lastAvailableUpdateVersionId = $this->lastAvailableUpdateInfo->VersionId;
-            if(isset($this->lastDownloadedUpdateInfo)) {
-                $lastDownloadedUpdateVersionId = $this->lastDownloadedUpdateInfo->VersionId;
-            }
-            return $lastAvailableUpdateVersionId <> $lastDownloadedUpdateVersionId;
-        }
-        catch (FiasException $exception) {
-            // TODO: Если не удалось подключиться - выводим сообщение о проблеме.
-            dd('Поймал исключение FiasException!');
-        }
-    }
-
-    /**
-     * Возвращает объект с информацией о последней версии файлов ФИАС, доступной для скачивания.
+     * Возвращает объект stdClass с информацией о последней версии файлов обновлений ФИАС, доступной для скачивания.
      *
      * @return stdClass
      */
@@ -78,7 +29,8 @@ class FiasWebService
     }
 
     /**
-     * Возвращает массив объектов stdClass с информацией о всех версиях файлов ФИАС, доступных для скачивания.
+     * Возвращает массив объектов stdClass с информацией о всех версиях файлов обновлений ФИАС, доступных для
+     * скачивания.
      *
      * @return array
      */
@@ -88,7 +40,8 @@ class FiasWebService
     }
 
     /**
-     *
+     * Подключается к службе получения обновлений ФИАС, получает информацию и возвращает объект с информацией о
+     * последней или о всех версиях файлов обновлений ФИАС, доступных для скачивания.
      *
      * @param bool $allUpdatesInfo
      * @return stdClass
@@ -102,8 +55,10 @@ class FiasWebService
             $fiasDownloadService = new SoapClient($fiasDownloadServiceUrl);
 
             // Служба предоставляет два метода:
-            // - GetLastDownloadFileInfo - возвращает информацию о последней версии файлов, доступных для скачивания.
-            // - GetAllDownloadFileInfo - возвращает информацию о всех версиях файлов, доступных для скачивания;
+            // - GetLastDownloadFileInfo - возвращает информацию о последней версии файлов обновлений ФИАС,
+            //                             доступной для скачивания.
+            // - GetAllDownloadFileInfo  - возвращает информацию о всех версиях файлов обновлений ФИАС,
+            //                             доступных для скачивания;
             $methodName = 'GetLastDownloadFileInfo';
             if($allUpdatesInfo) {
                 $methodName = 'GetAllDownloadFileInfo';
@@ -114,11 +69,17 @@ class FiasWebService
         }
     }
 
+    // TODO: Сделать описание метода
+    /**
+     *
+     *
+     * Для получения файла обновлений используется cURL. Функцию file_get_contents() решено не использовать, т.к.
+     * получение данных через неё происходит медленнее, и она не всегда работает из-за настроек безопасности сервера,
+     * исполняющего скрипт.
+     */
     private function downloadFile(string $FileUrl): void
     {
-        // Для получения файла обновлений используется cURL.
-        // Функцию file_get_contents() решено не использовать, т.к. получение данных через неё происходит медленнее,
-        // и она не всегда работает из-за настроек безопасности исполняющего скрипт сервера.
+
         $ch = curl_init($FileUrl);          // Создание нового ресурса cURL
         $fp = fopen('archive.rar', 'wb');           // Создание файла-назначения
         curl_setopt($ch, CURLOPT_FILE, $fp);        // Установка необходимых параметров
@@ -126,20 +87,5 @@ class FiasWebService
         curl_exec($ch);                             // Загрузка файла и его сохранение в файле-назначении
         curl_close($ch);                            // Завершение сеанса и освобождение ресурсов
         fclose($fp);                                // Закрытие файла-назначения
-    }
-
-    public function isCheck()
-    {
-        return FiasUpdate::all()->isEmpty();
-    }
-
-    public function isInstall()
-    {
-        return false;
-    }
-
-    public function isUpToDate()
-    {
-        return false;
     }
 }

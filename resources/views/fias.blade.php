@@ -6,19 +6,15 @@
             <div class="card">
                 <h1 class="card-header">Центр обновления адресов Вомбат</h1>
                 <div class="card-block">
-
                     <div style="border: 1px solid lightgray">
-                        @if($fias->isCheck())
+                        @if($fias->isUpToDate())
+                            @include('partials.fias.up-to-date')
+                        @elseif($fias->hasUpdatesToInstall())
+                            @include('partials.fias.updates_install')
+                        @else
                             @include('partials.fias.updates_check')
                         @endif
-                        @if($fias->isInstall())
-                            @include('partials.fias.updates_install')
-                        @endif
-                        @if($fias->isUpToDate())
-                            @include('partials.fias.updates_up-to-date')
-                        @endif
                     </div>
-
                 </div>
                 <div class="card-footer">
                     {{--<p>Последний поиск обновлений: {{ $last_updates_check }}</p>--}}

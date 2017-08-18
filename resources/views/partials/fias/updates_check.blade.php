@@ -1,5 +1,7 @@
 <h2>Проверка наличия обновлений</h2>
-<p class="card-text">Обновления ещё не устанавливались!</p>
+@if($fias->firstRun())
+    <p class="card-text" style="color: red; font-weight: bold">Обновления ещё не устанавливались!</p>
+@endif
 <p class="card-text">Регулярно проверяйте наличие обновлений, чтобы…</p>
 <a href="/" class="btn btn-primary">Проверить наличие обновлений</a>
 
