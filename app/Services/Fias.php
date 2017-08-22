@@ -86,14 +86,19 @@ class Fias
         }
     }
 
-    public function isUpToDate()
+    public function hasUpdatesToDownload()
     {
-        return $this->settingStore->get('fias.status') === self::STATUS_UP_TO_DATE;
+        return $this->settingStore->get('fias.status') == self::STATUS_DOWNLOAD_DEMAND;
     }
 
     public function hasUpdatesToInstall()
     {
         return $this->settingStore->get('fias.status') === self::STATUS_INSTALL_DEMAND;
+    }
+
+    public function isUpToDate()
+    {
+        return $this->settingStore->get('fias.status') === self::STATUS_UP_TO_DATE;
     }
 
     public function firstRun()

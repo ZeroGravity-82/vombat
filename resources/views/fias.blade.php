@@ -7,12 +7,22 @@
                 <h1 class="card-header">Центр обновления адресов Вомбат</h1>
                 <div class="card-block">
                     <div style="border: 1px solid lightgray">
+                        @if($fias->)
+
+
+                        @if($fias->hasUpdatesToDownload())
+                            @include('partials.fias.check_for_updates')
+                        @endif
+                        @if($fias->hasUpdatesToInstall())
+                            @include('partials.fias.install_updates')
+                        @endif
                         @if($fias->isUpToDate())
                             @include('partials.fias.up-to-date')
-                        @elseif($fias->hasUpdatesToInstall())
-                            @include('partials.fias.updates_install')
-                        @else
-                            @include('partials.fias.updates_check')
+                        @endif
+
+
+
+                            @include('partials.fias.check_for_updates')
                         @endif
                     </div>
                 </div>
