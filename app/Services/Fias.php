@@ -18,35 +18,76 @@ class Fias
      */
 
     /**
-     * Требуется проверить наличие доступных для скачивания файлов обновлений ФИАС.
+     * Начальное состояние - база адресов пуста
      */
-    private const STATUS_CHECK_DEMAND = 'check_demand';
+    private const STATUS_INITIAL = 'initial';
 
     /**
-     * Требуется скачать доступные файлы обновлений ФИАС.
+     * При поиске обновлений возникла ошибка
      */
-    private const STATUS_DOWNLOAD_DEMAND = 'download_demand';
+    private const STATUS_CHECK_FAILED = 'check_failed';
 
     /**
-     * Требуется установить скачанные файлы обновлений ФИАС.
+     * Найдены обновления, доступные для скачивания
      */
-    private const STATUS_INSTALL_DEMAND = 'install_demand';
+    private const STATUS_UPDATES_FOUND = 'updates_found';
 
     /**
-     * База адресов актуальна.
+     * При загрузке обновлений возникла ошибка
+     */
+    private const STATUS_DOWNLOAD_FAILED = 'download_failed';
+
+    /**
+     * Обновления загружены
+     */
+    private const STATUS_UPDATES_DOWNLOADED = 'updates_downloaded';
+
+    /**
+     * При установке обновлений возникла ошибка
+     */
+    private const STATUS_INSTALL_FAILED = 'install_failed';
+
+    /**
+     * Обновления установлены
+     */
+    private const STATUS_UPDATES_INSTALLED = 'updates_installed';
+
+    /**
+     * Неопределённое состояние - необходимо выполнить поиск обновлений, доступных для скачивания
+     */
+    private const STATUS_UNCERTAIN = 'uncertain';
+
+    /**
+     * База адресов актуальна
      */
     private const STATUS_UP_TO_DATE = 'up_to_date';
+
+
+
+
 
     private $webService;
     private $settingStore;
     private $lastAvailableUpdateInfo ;
     private $lastDownloadedUpdateInfo;
 
+
+    /**
+     * Конструктор.
+     * @param FiasWebService $webService
+     * @param SettingStore $settingStore
+     */
     public function __construct(FiasWebService $webService, SettingStore $settingStore)
     {
         $this->webService = $webService;
         $this->settingStore = $settingStore;
     }
+
+
+
+
+
+
 
     /**
      * Проверяет наличие скачанных файлов обновлений ФИАС.

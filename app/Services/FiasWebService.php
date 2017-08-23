@@ -20,7 +20,6 @@ class FiasWebService
 
     /**
      * Возвращает объект stdClass с информацией о последней версии файлов обновлений ФИАС, доступной для скачивания.
-     *
      * @return stdClass
      */
     public function getLastAvailableUpdateInfo(): stdClass
@@ -31,7 +30,6 @@ class FiasWebService
     /**
      * Возвращает массив объектов stdClass с информацией о всех версиях файлов обновлений ФИАС, доступных для
      * скачивания.
-     *
      * @return array
      */
     public function getAllAvailableUpdateInfo(): array
@@ -42,7 +40,6 @@ class FiasWebService
     /**
      * Подключается к службе получения обновлений ФИАС, получает информацию и возвращает объект с информацией о
      * последней или о всех версиях файлов обновлений ФИАС, доступных для скачивания.
-     *
      * @param bool $allUpdatesInfo
      * @return stdClass
      * @throws FiasException Если не удалось подключиться к службе получения обновлений ФИАС
