@@ -33,12 +33,12 @@ class Fias
     private const STATUS_UPDATES_FOUND = 'updates_found';
 
     /**
-     * При загрузке обновлений возникла ошибка
+     * При скачивании обновлений возникла ошибка
      */
     private const STATUS_DOWNLOAD_FAILED = 'download_failed';
 
     /**
-     * Обновления загружены
+     * Обновления скачаны
      */
     private const STATUS_UPDATES_DOWNLOADED = 'updates_downloaded';
 
@@ -68,8 +68,6 @@ class Fias
 
     private $webService;
     private $settingStore;
-    private $lastAvailableUpdateInfo ;
-    private $lastDownloadedUpdateInfo;
 
 
     /**
@@ -90,8 +88,7 @@ class Fias
 
 
     /**
-     * Проверяет наличие скачанных файлов обновлений ФИАС.
-     *
+     * Проверяет наличие скачанных обновлений ФИАС.
      * @return bool
      */
     public function noUpdatesDownloaded(): bool
@@ -100,31 +97,66 @@ class Fias
     }
 
     /**
-     * Возвращает количество доступных для загрузки файлов обновлений ФИАС.
-     *
+     * Проверяет наличие доступных для скачивания обновлений ФИАС.
      * @return bool
      */
-    public function checkForAvailableUpdates(): bool
+    public function hasAvailableUpdates(): bool
     {
         try {
-            // Проверить ID последнего доступного файла обновлений ФИАС, возвращаемого службой обновлений ФИАС
-            $this->lastAvailableUpdateInfo = $this->webService->getLastAvailableUpdateInfo();
-
-            // Проверить ID последнего загруженного файла обновлений ФИАС, содержащегося в базе данных приложения
-            $this->lastDownloadedUpdateInfo = FiasUpdate::where('downloaded', true)->latest()->first();
-
-            // Если ID различаются, значит есть доступные для загрузки файлы обновлений ФИАС, необходимо их
-            // сосчитать.
-            $lastAvailableUpdateVersionId = $this->lastAvailableUpdateInfo->VersionId;
-            if(isset($this->lastDownloadedUpdateInfo)) {
-                $lastDownloadedUpdateVersionId = $this->lastDownloadedUpdateInfo->VersionId;
-            }
+            // Если ID последнего доступного и последнего скачанного обновлений ФИАС различаются, значит есть доступные
+            // для скачивания обновления ФИАС.
+            $lastAvailableUpdateInfo = $this->webService->getLastAvailableUpdateInfo();
+            $lastDownloadedUpdateInfo = FiasUpdate::where('downloaded', true)->latest()->first();
+            $lastAvailableUpdateVersionId = $lastAvailableUpdateInfo->VersionId;
+            $lastDownloadedUpdateVersionId = isset($lastDownloadedUpdateInfo) ?
+                                             $lastDownloadedUpdateInfo->version_id : null;
             return $lastAvailableUpdateVersionId <> $lastDownloadedUpdateVersionId;
         }
         catch (FiasException $exception) {
             // TODO: Если не удалось подключиться - выводим сообщение о проблеме.
             dd('Поймал исключение FiasException!');
         }
+    }
+
+    /**
+     * Актуализирует информацию о доступных для скачивания обновлениях.
+     */
+    public function refreshUpdatesInfo()
+    {
+        $lastKnownUpdateInfo = FiasUpdate::orderBy('version_id', 'desc')->first();
+        $lastKnownUpdateVersionId = isset($lastKnownUpdateInfo) ? $lastKnownUpdateInfo->version_id : null;
+
+        $allAvailableUpdatesInfo = $this->webService->getAllAvailableUpdatesInfo();
+
+        $start = microtime(true);
+
+
+
+        foreach($allAvailableUpdatesInfo as $availableUpdateInfo) {
+            $availableUpdateVersionId = $availableUpdateInfo->VersionId;
+            if($availableUpdateVersionId > $lastKnownUpdateVersionId) {
+                FiasUpdate::create([
+                    'version_id'            => $availableUpdateVersionId,
+                    'text_version'          => $availableUpdateInfo->TextVersion,
+                    'fias_complete_xml_url' => $availableUpdateInfo->FiasCompleteXmlUrl,
+                    'fias_delta_xml_url'    => $availableUpdateInfo->FiasDeltaXmlUrl,
+                ]);
+            }
+        }
+
+
+
+
+        return microtime(true) - $start;
+
+   }
+
+    /**
+     * Скачивает все доступные обновления.
+     */
+    public function downloadAvailableUpdates()
+    {
+    // TODO: реализовать метод
     }
 
     public function hasUpdatesToDownload()

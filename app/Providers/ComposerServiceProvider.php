@@ -36,7 +36,7 @@ class ComposerServiceProvider extends ServiceProvider
                          'avatar_filename'    => $this->avatarFilename(),       // Имя файла с аватаром
             ]);
         });
-        View::composer('settings.profile', function($view) {
+        View::composer('user.profile', function($view) {
             $profile = Auth::user()->profile;
             $view->with(['full_name'      => $profile->full_name,               // Полное имя
                          'gender'         => $this->getGender($profile),        // Пол
@@ -84,7 +84,7 @@ class ComposerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Создаёт массив для отображения в представлении информации о поле пользователя.
+     * Создаёт массив для отображения в представлении информации о поле (мужской или женский) пользователя.
      *
      * @param UserProfile $profile
      * @return array

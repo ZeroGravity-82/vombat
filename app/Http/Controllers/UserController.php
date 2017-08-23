@@ -7,11 +7,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Vombat\Exceptions\UserException;
 
-class SettingsController extends Controller
+class UserController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | SettingsController
+    | UserController
     |--------------------------------------------------------------------------
     |
     | Управление настройками (профиля, учётной записи, электронной почты и т.п.).
@@ -43,7 +43,7 @@ class SettingsController extends Controller
      */
     public function editProfile()
     {
-        return view('settings.profile');
+        return view('user.profile');
     }
 
     /**

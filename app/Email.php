@@ -11,13 +11,12 @@ class Email extends Contact
     | Email
     |--------------------------------------------------------------------------
     |
-    | Контактные данные пользователя "адрес электронной почты".
+    | Контактные данные пользователя типа "адрес электронной почты".
     |
     */
 
     /**
      * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
@@ -26,7 +25,6 @@ class Email extends Contact
 
     /**
      * Имя таблицы БД, хранящей контактные данные пользователя "адрес электронной почты".
-     *
      * @var string
      */
     protected $table = 'email';

@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="col-xs-9">
-        @yield('settings')
+        @yield('user')
     </div>
 </div>
 @endsection

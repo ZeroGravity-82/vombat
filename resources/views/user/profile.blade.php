@@ -1,6 +1,6 @@
-@extends('layouts.settings')
+@extends('layouts.user')
 
-@section('settings')
+@section('user')
 <div class="panel panel-default">
     <div class="panel-heading">Данные профиля</div>
     <div class="panel-body">

@@ -19,32 +19,31 @@ class FiasWebService
      */
 
     /**
-     * Возвращает объект stdClass с информацией о последней версии файлов обновлений ФИАС, доступной для скачивания.
+     * Возвращает объект stdClass с информацией о последней версии обновлений ФИАС, доступной для скачивания.
      * @return stdClass
      */
     public function getLastAvailableUpdateInfo(): stdClass
     {
-        return $this->getAvailableUpdateInfo(FALSE)->GetLastDownloadFileInfoResult;
+        return $this->getAvailableUpdatesInfo(FALSE)->GetLastDownloadFileInfoResult;
     }
 
     /**
-     * Возвращает массив объектов stdClass с информацией о всех версиях файлов обновлений ФИАС, доступных для
-     * скачивания.
+     * Возвращает массив объектов stdClass с информацией о всех версиях обновлений ФИАС, доступных для скачивания.
      * @return array
      */
-    public function getAllAvailableUpdateInfo(): array
+    public function getAllAvailableUpdatesInfo(): array
     {
-        return $this->getAvailableUpdateInfo(TRUE)->GetAllDownloadFileInfoResult->DownloadFileInfo;
+        return $this->getAvailableUpdatesInfo(TRUE)->GetAllDownloadFileInfoResult->DownloadFileInfo;
     }
 
     /**
      * Подключается к службе получения обновлений ФИАС, получает информацию и возвращает объект с информацией о
-     * последней или о всех версиях файлов обновлений ФИАС, доступных для скачивания.
+     * последней или о всех версиях обновлений ФИАС, доступных для скачивания.
      * @param bool $allUpdatesInfo
      * @return stdClass
      * @throws FiasException Если не удалось подключиться к службе получения обновлений ФИАС
      */
-    public function getAvailableUpdateInfo(bool $allUpdatesInfo = TRUE): stdClass
+    public function getAvailableUpdatesInfo(bool $allUpdatesInfo = TRUE): stdClass
     {
         try {
             // Для общения со службой получения обновлений ФИАС используется протокол SOAP
@@ -52,10 +51,10 @@ class FiasWebService
             $fiasDownloadService = new SoapClient($fiasDownloadServiceUrl);
 
             // Служба предоставляет два метода:
-            // - GetLastDownloadFileInfo - возвращает информацию о последней версии файлов обновлений ФИАС,
-            //                             доступной для скачивания.
-            // - GetAllDownloadFileInfo  - возвращает информацию о всех версиях файлов обновлений ФИАС,
-            //                             доступных для скачивания;
+            // - GetLastDownloadFileInfo - возвращает информацию о последней версии обновлений ФИАС, доступной для
+            //                             скачивания.
+            // - GetAllDownloadFileInfo  - возвращает информацию о всех версиях обновлений ФИАС, доступных для
+            //                             скачивания;
             $methodName = 'GetLastDownloadFileInfo';
             if($allUpdatesInfo) {
                 $methodName = 'GetAllDownloadFileInfo';
@@ -81,7 +80,7 @@ class FiasWebService
         $fp = fopen('archive.rar', 'wb');           // Создание файла-назначения
         curl_setopt($ch, CURLOPT_FILE, $fp);        // Установка необходимых параметров
         curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_exec($ch);                             // Загрузка файла и его сохранение в файле-назначении
+        curl_exec($ch);                             // Скачивание файла и его сохранение в файле-назначении
         curl_close($ch);                            // Завершение сеанса и освобождение ресурсов
         fclose($fp);                                // Закрытие файла-назначения
     }

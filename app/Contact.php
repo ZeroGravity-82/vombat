@@ -18,7 +18,6 @@ class Contact extends Model
 
     /**
      * Профиль пользователя, которому принадлежат контактные данные пользователя.
-     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function owner(): MorphTo
